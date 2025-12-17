@@ -36,7 +36,7 @@ unsigned char segments[] = {
 // Variable to store write data
 unsigned char data;
 
-void main()
+int main()
 {
     // Logging errors
     if (ioperm(DATA_PORT, 1, 1))
@@ -45,7 +45,7 @@ void main()
     }
 
     // Lighting each segment individually
-    for (int i = 0; i < 7; i++)
+    while (1)
     {
         // Select segment
         data = segments[i];
@@ -56,10 +56,6 @@ void main()
         // Wait 1 second
         sleep(1);
     }
-
-    // Turn OFF all segments
-    data = 0x00;
-    outb(data, DATA_PORT);
 
     return 0;
 }
