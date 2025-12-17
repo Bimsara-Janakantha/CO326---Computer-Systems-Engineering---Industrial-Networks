@@ -7,7 +7,7 @@
 #define DATA_PORT 0x378
 
 // Binary mapping
-unsigned char[] binaries = {
+unsigned char binaries[] = {
     0x00, // 0000
     0x01, // 0001
     0x02, // 0010

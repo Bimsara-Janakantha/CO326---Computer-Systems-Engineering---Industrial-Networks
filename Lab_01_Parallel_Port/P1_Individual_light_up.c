@@ -2,20 +2,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/io.h>
-#include <sys/time.h>
 
 // Parallel port base address
 #define DATA_PORT 0x378
 
 // Port mapping
-unsigned char[] segments = {
+unsigned char segments[] = {
     0x01, // a
     0x02, // b
-    0x03, // c
-    0x04, // d
-    0x05, // e
-    0x06, // f
-    0x07  // g
+    0x04, // c
+    0x08, // d
+    0x10, // e
+    0x20, // f
+    0x40  // g
 };
 
 // Variable to store write data

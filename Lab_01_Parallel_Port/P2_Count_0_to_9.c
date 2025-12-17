@@ -7,7 +7,7 @@
 #define DATA_PORT 0x378
 
 // Character mapping
-unsigned char[] characters = {
+unsigned char characters[] = {
     0x3F, // 0
     0x06, // 1
     0x5B, // 2
