@@ -1,3 +1,24 @@
+/*
+Auther: Janakantha S.M.B.G. (E/20/157)
+Last Modified: 2025-12-17
+Title: Count from 0 to 9 on a Seven Segment Display using Parallel Port with and a 74LS47 Decoder
+Description: This program counts from 0 to 9 on a seven-segment display connected to a parallel port when a push button is pressed.
+Note: Use a common anode seven-segment display.
+Port Map:
+    Parallel Port -> 74LS47 Decoder
+        D0        ->    A0
+        D1        ->    A1
+        D2        ->    A2
+        D3        ->    A3
+        D4        ->    VCC
+        GND       ->    GND
+        S7        ->    VCC
+        S6        ->    GND
+        S5        ->    GND
+        S4        ->    GND
+        S3        ->    Push Button Input (Active HIGH)
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -7,18 +28,23 @@
 #define DATA_PORT 0x378
 #define STATUS_PORT (DATA_PORT + 1)
 
+// Note: In default state, status port's last 3 bits are internally HIGH.
+// When the button is pressed, it pulls one bit LOW, resulting in 0x07.
+// Make sure to check the default state of your status port.
+#define BUTTON_PRESSED 0x07
+
 // Binary mapping
 unsigned char binaries[] = {
-    0x00, // 0000
-    0x01, // 0001
-    0x02, // 0010
-    0x03, // 0011
-    0x04, // 0100
-    0x05, // 0101
-    0x06, // 0110
-    0x07, // 0111
-    0x08, // 1000
-    0x09  // 1001
+    0x10, // 0001 0000
+    0x11, // 0001 0001
+    0x12, // 0001 0010
+    0x13, // 0001 0011
+    0x14, // 0001 0100
+    0x15, // 0001 0101
+    0x16, // 0001 0110
+    0x17, // 0001 0111
+    0x18, // 0001 1000
+    0x19  // 0001 1001
 };
 
 // Variable to store write data
@@ -42,10 +68,12 @@ int main()
     while (1)
     {
         // Check button press (active LOW)
-        if (inb(STATUS_PORT) == 0x00)
+        status = inb(STATUS_PORT);
+        printf("Ready for button press. \t Default STATUS PORT: %02X\n", status);
+        if (status == BUTTON_PRESSED)
         {
             usleep(1000); // debounce delay
-            if (inb(STATUS_PORT) == 0x00)
+            if (inb(STATUS_PORT) == BUTTON_PRESSED)
             {
                 // Select character
                 data = binaries[i];
@@ -54,7 +82,7 @@ int main()
                 outb(data, DATA_PORT);
 
                 // Increment the count
-                i = (i > 8) ? 0 : i + 1;
+                i = (i + 1) % 10;
             }
         }
     }
