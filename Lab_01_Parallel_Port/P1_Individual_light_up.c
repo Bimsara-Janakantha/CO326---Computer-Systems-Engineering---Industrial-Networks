@@ -45,6 +45,7 @@ int main()
     }
 
     // Lighting each segment individually
+    int i = 0;
     while (1)
     {
         // Select segment
@@ -52,9 +53,13 @@ int main()
 
         // Write to the parallel port
         outb(data, DATA_PORT);
+        printf("Lighting segment %x\n", data);
 
         // Wait 1 second
         sleep(1);
+
+        // Move to the next segment
+        i = (i + 1) % 7;
     }
 
     return 0;
