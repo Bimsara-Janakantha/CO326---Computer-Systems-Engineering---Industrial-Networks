@@ -1,3 +1,19 @@
+/*
+Auther: Janakantha S.M.B.G. (E/20/157)
+Last Modified: 2025-12-17
+Title: Lighting up individual segments in a seven-segment display
+Note: Use a common anode seven-segment display.
+Port Map:
+    D0 -> a
+    D1 -> b
+    D2 -> c
+    D3 -> d
+    D4 -> e
+    D5 -> f
+    D6 -> g
+    D7 -> Common pin (Always HIGH)
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,13 +24,13 @@
 
 // Port mapping
 unsigned char segments[] = {
-    0x01, // a
-    0x02, // b
-    0x04, // c
-    0x08, // d
-    0x10, // e
-    0x20, // f
-    0x40  // g
+    0xFE, // a
+    0xFD, // b
+    0xFB, // c
+    0xF7, // d
+    0xEF, // e
+    0xDF, // f
+    0xBF  // g
 };
 
 // Variable to store write data
